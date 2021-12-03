@@ -31,12 +31,12 @@ class IgnorableChangeNotifier extends ChangeNotifier {
 
   void addIgnorableListener(listener) {
     assert(_debugAssertNotDisposed());
-    _ignorableListeners!.add(listener);
+    _ignorableListeners?.add(listener);
   }
 
   void removeIgnorableListener(listener) {
     assert(_debugAssertNotDisposed());
-    _ignorableListeners!.remove(listener);
+    _ignorableListeners?.remove(listener);
   }
 
   @override
