@@ -176,6 +176,7 @@ class PhotoViewController
   @override
   void dispose() {
     _outputCtrl.close();
+    removeIgnorableListener(_changeListener);
     _valueNotifier.dispose();
   }
 
