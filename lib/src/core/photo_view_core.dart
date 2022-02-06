@@ -108,23 +108,61 @@ class PhotoViewCoreState extends State<PhotoViewCore>
   double? _scaleBefore;
   double? _rotationBefore;
 
-  late final AnimationController _scaleAnimationController =
-      AnimationController(vsync: this)
-        ..addListener(handleScaleAnimation)
-        ..addStatusListener(onAnimationStatus);
+  late final AnimationController _scaleAnimationController;
   Animation<double>? _scaleAnimation;
 
-  late final AnimationController _positionAnimationController =
-      AnimationController(vsync: this)..addListener(handlePositionAnimate);
+  late final AnimationController _positionAnimationController;
   Animation<Offset>? _positionAnimation;
 
-  late final AnimationController _rotationAnimationController =
-      AnimationController(vsync: this)..addListener(handleRotationAnimation);
+  late final AnimationController _rotationAnimationController ;
   Animation<double>? _rotationAnimation;
 
   PhotoViewHeroAttributes? get heroAttributes => widget.heroAttributes;
 
   late ScaleBoundaries cachedScaleBoundaries = widget.scaleBoundaries;
+
+  void initControler() {
+    _scaleAnimationController = AnimationController(vsync: this)
+      ..addListener(handleScaleAnimation)
+      ..addStatusListener(onAnimationStatus);
+    _positionAnimationController = AnimationController(vsync: this)
+      ..addListener(handlePositionAnimate);
+    _rotationAnimationController = AnimationController(vsync: this)
+      ..addListener(handleRotationAnimation);
+  }
+
+  void disposeControler() {
+    _scaleAnimationController.removeListener(handleScaleAnimation);
+    _scaleAnimationController.removeStatusListener(onAnimationStatus);
+    _scaleAnimationController.dispose();
+    _positionAnimationController.removeListener(handlePositionAnimate);
+    _positionAnimationController.dispose();
+    _rotationAnimationController.removeListener(handleRotationAnimation);
+    _rotationAnimationController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initControler();
+    initDelegate();
+    addAnimateOnScaleStateUpdate(animateOnScaleStateUpdate);
+
+    cachedScaleBoundaries = widget.scaleBoundaries;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    disposeControler();
+    initControler();
+  }
+
+  @override
+  void dispose() {
+    disposeControler();
+    super.dispose();
+  }
 
   void handleScaleAnimation() {
     scale = _scaleAnimation!.value;
@@ -254,28 +292,10 @@ class PhotoViewCoreState extends State<PhotoViewCore>
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initDelegate();
-    addAnimateOnScaleStateUpdate(animateOnScaleStateUpdate);
-
-    cachedScaleBoundaries = widget.scaleBoundaries;
-  }
-
   void animateOnScaleStateUpdate(double prevScale, double nextScale) {
     animateScale(prevScale, nextScale);
     animatePosition(controller.position, Offset.zero);
     animateRotation(controller.rotation, 0.0);
-  }
-
-  @override
-  void dispose() {
-    _scaleAnimationController.removeStatusListener(onAnimationStatus);
-    _scaleAnimationController.dispose();
-    _positionAnimationController.dispose();
-    _rotationAnimationController.dispose();
-    super.dispose();
   }
 
   void onTapUp(TapUpDetails details) {
