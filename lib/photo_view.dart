@@ -1,7 +1,6 @@
 library photo_view;
 
 import 'package:flutter/material.dart';
-
 import 'package:photo_view/src/controller/photo_view_controller.dart';
 import 'package:photo_view/src/controller/photo_view_scalestate_controller.dart';
 import 'package:photo_view/src/core/photo_view_core.dart';
@@ -314,11 +313,11 @@ class PhotoView extends StatefulWidget {
   /// Changes the background behind image, defaults to `Colors.black`.
   final BoxDecoration? backgroundDecoration;
 
-   /// This is used to keep the state of an image in the gallery (e.g. scale state).
-   /// `false` -> resets the state (default)
-   /// `true`  -> keeps the state
-   final bool wantKeepAlive;
-    
+  /// This is used to keep the state of an image in the gallery (e.g. scale state).
+  /// `false` -> resets the state (default)
+  /// `true`  -> keeps the state
+  final bool wantKeepAlive;
+
   /// This is used to continue showing the old image (`true`), or briefly show
   /// nothing (`false`), when the `imageProvider` changes. By default it's set
   /// to `false`.
@@ -487,6 +486,7 @@ class _PhotoViewState extends State<PhotoView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return LayoutBuilder(
       builder: (
         BuildContext context,
