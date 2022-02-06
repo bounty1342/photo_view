@@ -108,13 +108,13 @@ class PhotoViewCoreState extends State<PhotoViewCore>
   double? _scaleBefore;
   double? _rotationBefore;
 
-  late final AnimationController _scaleAnimationController;
+  late AnimationController _scaleAnimationController;
   Animation<double>? _scaleAnimation;
 
-  late final AnimationController _positionAnimationController;
+  late AnimationController _positionAnimationController;
   Animation<Offset>? _positionAnimation;
 
-  late final AnimationController _rotationAnimationController ;
+  late AnimationController _rotationAnimationController;
   Animation<double>? _rotationAnimation;
 
   PhotoViewHeroAttributes? get heroAttributes => widget.heroAttributes;
